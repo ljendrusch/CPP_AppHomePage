@@ -16,6 +16,7 @@ public:
 	sf::Event ev;
 	bool active_funcs[FPS_LEN];
 	bool fin[6];
+	float ph_dists[6];
 	sf::Clock run_time;
 	std::stack<Entity*> last_screen;
 	std::stack<int> last_len;
