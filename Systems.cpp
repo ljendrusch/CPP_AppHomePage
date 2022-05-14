@@ -38,6 +38,14 @@ void System::init()
     last_len.push(HOME_LEN);
     search_str = "";
     selected_entity = NULL;
+
+    float ph_mult = 1.f / 15.f;
+    ph_dists[0] = 297.8456f * ph_mult;
+    ph_dists[1] = 193.0725f * ph_mult;
+    ph_dists[2] = 134.5362f * ph_mult;
+    ph_dists[3] = 266.1522f * ph_mult;
+    ph_dists[4] = 139.291f * ph_mult;
+    ph_dists[5] = 15 * ph_mult;
 }
 
 void System::run()
