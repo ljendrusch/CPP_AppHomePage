@@ -62,6 +62,7 @@ bool System::raise_ph_styles()
 {
     S_HOME[2].menu_is_up = true;
     S_HOME[2].is_alive = false;
+    for (int i = 0; i < 6; i++) fin[i] = false;
     for (int i = 0; i < S_HOME[2].menu_len; i++) S_HOME[2].menu[i].is_alive = true;
 
     active_funcs[F_SLIDE_PH_STYLES_OPEN] = true;
@@ -73,7 +74,6 @@ bool System::slide_ph_styles_open()
 {
     if (fin[0] && fin[1] && fin[2] && fin[3] && fin[4] && fin[5])
     {
-        for (int i = 0; i < 6; i++) fin[i] = false;
         S_HOME[3].is_alive = false;
         S_HOME[4].is_alive = false;
         S_HOME[5].is_alive = false;
@@ -87,7 +87,7 @@ bool System::slide_ph_styles_open()
         float ray_x = S_HOME[2].menu[i].x - S_HOME[2].menu[i].img->getPosition().x;
         float ray_y = S_HOME[2].menu[i].y - S_HOME[2].menu[i].img->getPosition().y;
 
-        if (ray_x < 0 || ray_y < 0)
+        if (ray_x > 0 || ray_y > 0)
         {
             S_HOME[2].menu[i].set_pos(sf::Vector2f(S_HOME[2].menu[i].x, S_HOME[2].menu[i].y));
             fin[i] = true;
@@ -96,38 +96,12 @@ bool System::slide_ph_styles_open()
 
         sf::Vector2f trans(ray_x, ray_y);
         trans /= (sqrt(ray_x * ray_x + ray_y * ray_y));
-        trans *= 6.f;
+        trans *= ph_dists[i];
 
         S_HOME[2].menu[i].move(trans);
     }
 
     return true;
-////////////////////////////////////
-    //for (int i = 0; i < S_HOME[2].menu_len; i++)
-    //{
-    //    float ray_x = S_HOME[2].menu[i].x - S_HOME[2].menu[i].img->getPosition().x;
-    //    float ray_y = S_HOME[2].menu[i].y - S_HOME[2].menu[i].img->getPosition().y;
-    //    sf::Vector2f trans(ray_x, ray_y);
-    //    trans /= (sqrt(ray_x*ray_x + ray_y*ray_y));
-    //    trans *= 6.f;
-
-    //    sf::Vector2f dif = S_HOME[2].menu[i].move(trans);
-
-    //    if (dif.y < 0 || dif.x < 0)
-    //    {
-    //        for (int j = 0; j < S_HOME[2].menu_len; j++)
-    //        {
-    //            S_HOME[2].menu[j].reset_pos();
-    //        }
-
-    //        S_HOME[3].is_alive = false;
-    //        S_HOME[4].is_alive = false;
-    //        S_HOME[5].is_alive = false;
-    //        return false;
-    //    }
-    //}
-
-    //return true;
 }
 
 bool System::lower_ph_styles()
@@ -135,6 +109,7 @@ bool System::lower_ph_styles()
     S_HOME[3].is_alive = true;
     S_HOME[4].is_alive = true;
     S_HOME[5].is_alive = true;
+    for (int i = 0; i < 6; i++) fin[i] = false;
 
     active_funcs[F_SLIDE_PH_STYLES_CLOSED] = true;
 
@@ -145,11 +120,7 @@ bool System::slide_ph_styles_closed()
 {
     if (fin[0] && fin[1] && fin[2] && fin[3] && fin[4] && fin[5])
     {
-        for (int i = 0; i < 6; i++)
-        {
-            S_HOME[2].menu[i].set_pos(S_HOME[2].box->getPosition());
-            fin[i] = false;
-        }
+        for (int i = 0; i < 6; i++) S_HOME[2].menu[i].set_pos(S_HOME[2].box->getPosition());
 
         S_HOME[2].menu_is_up = false;
         S_HOME[2].is_alive = true;
@@ -172,7 +143,7 @@ bool System::slide_ph_styles_closed()
 
         sf::Vector2f trans(ray_x, ray_y);
         trans /= (sqrt(ray_x * ray_x + ray_y * ray_y));
-        trans *= 6.f;
+        trans *= ph_dists[i];
 
         S_HOME[2].menu[i].move(trans);
     }
